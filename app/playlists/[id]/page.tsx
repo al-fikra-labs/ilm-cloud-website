@@ -4,6 +4,12 @@ import { getQueryClient } from "@/lib/query-client";
 import { api } from "@/lib/api";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
+export const dynamicParams = true
+
+export async function generateStaticParams() {
+  return []
+}
+
 export default async function Playlist({ params }: { params: Promise<{ id: string }> }) {
 
   const { id } = await params
@@ -11,8 +17,11 @@ export default async function Playlist({ params }: { params: Promise<{ id: strin
   await queryClient.prefetchQuery({
     queryKey: ['playlist', id],
     queryFn: async () => {
-      const res = await api.get(`${endpoints.getPlaylists}/${id}`)
-      return res.data
+      const res = await fetch(`${baseURL}/${endpoints.getPlaylists}/${id}`, {
+        next: { tags: [`playlist-${id}`] }
+      })
+      const data = await res.json()
+      return data
     },
   })
 

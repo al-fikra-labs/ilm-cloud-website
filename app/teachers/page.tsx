@@ -3,7 +3,7 @@ import TeachersPage from "./teachers";
 
 export default async function Teachers() {
   const res = await fetch(`${baseURL}/${endpoints.getTeachers}`, {
-    next: { tags: ['teachers'], revalidate: 60 * 1000 }
+    next: { tags: ['teachers'] }
   })
   const teachers = await res.json()
   return (

@@ -22,7 +22,7 @@ export interface ApiPlaylist {
   id: string
   name: string
   description: string
-  // thumbnail?: string
+  thumbnail?: string
   tracks?: ApiTrack[]
   teacherId?: string
   teacherName?: string
@@ -36,6 +36,7 @@ export interface ApiCategory {
   name: string
   description: string
   thumbnail?: string
+  tracks: ApiTrack[]
   trackCount: number
 }
 
