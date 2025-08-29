@@ -1,17 +1,32 @@
+"use client"
+
 import { api } from "@/lib/api";
 import { endpoints } from "@/lib/urls";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
 
-export default async function Layout({ children }: { children: ReactNode }) {
-    let user = null
-    try {
-        const res = await api.get(endpoints.getUser)
-        user = res.data
-    } catch (error) {
-        console.log(error)
-        return children
-    }
-    if(user) redirect("/")
-    return children
+export default function Layout({ children }: { children: ReactNode }) {
+    const [loading, setLoading] = useState(true)
+    const [isAuth, setIsAuth] = useState(false)
+    const router = useRouter()
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const { data } = await api.get(endpoints.getUser)
+                if (data) {
+                    setIsAuth(true)
+                }
+            } catch (error) {
+            } finally {
+                setLoading(false)
+            }
+        }
+        checkAuth()
+    }, [])
+
+    if (loading) return null;
+
+    if (!isAuth) return children
+    else router.push("/")
 }

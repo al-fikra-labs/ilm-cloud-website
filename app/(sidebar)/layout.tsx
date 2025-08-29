@@ -5,23 +5,15 @@ import { Navbar } from "@/components/navbar"
 import { Sidebar } from "@/components/sidebar"
 import { AudioPlayer } from "@/components/audio-player"
 import { AuthProvider } from "@/contexts/auth-provider"
-import { api } from "@/lib/api"
-import { endpoints } from "@/lib/urls"
 
-export default async function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  let user = null;
-  try {
-    user = await api.get(endpoints.getUser)
-  } catch (error) {
-
-  }
 
   return (
-    <AuthProvider userData={user ? user.data as User : null}>
+    <AuthProvider>
       <SidebarProvider>
         <AudioProvider>
           <div className="h-screen flex flex-col bg-background text-foreground transition-colors duration-200 ease-out">
