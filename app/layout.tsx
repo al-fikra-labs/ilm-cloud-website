@@ -3,8 +3,10 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
-import ClientLayout from "./client-layout"
 import QueryProvider from "@/components/query-provider"
+import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/contexts/language-context"
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: "AudioCourse - Learn Through Audio",
@@ -18,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
+    <html suppressHydrationWarning>
+      {/* <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -41,11 +43,22 @@ html {
   --font-mono: ${GeistMono.variable};
 }
         `}</style>
-      </head>
-      <body className="antialiased" suppressHydrationWarning>
+      </head> */}
+      <body className="antialiased">
         <QueryProvider>
-          <ClientLayout>{children}</ClientLayout>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange={false}
+            storageKey="audiocourse-theme"
+          >
+            <LanguageProvider>
+              {children}
+            </LanguageProvider>
+          </ThemeProvider>
         </QueryProvider>
+        <Toaster richColors />
       </body>
     </html>
   )

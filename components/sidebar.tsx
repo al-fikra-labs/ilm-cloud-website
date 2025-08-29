@@ -57,7 +57,7 @@ export function Sidebar() {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "w-full justify-start gap-3 h-12 text-muted-foreground hover:bg-accent hover:text-foreground",
+                      "w-full justify-start gap-3 h-12 text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
                       isActive && "bg-[#1DB954] text-white hover:bg-[#1DB954]/90 hover:text-white",
                     )}
                   >

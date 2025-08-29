@@ -22,7 +22,7 @@ export function PlaylistDetailPage() {
         data: playlist,
         isFetching: loading
     } = useQuery({
-        queryKey: ['playlist',params.id],
+        queryKey: ['playlist', params.id],
         queryFn: async (): Promise<ApiPlaylist> => {
             const res = await api.get(`${endpoints.getPlaylists}/${params.id}`)
             return res.data

@@ -591,18 +591,9 @@ const api = axios.create({
 
 })
 
-api.interceptors.response.use(undefined, async (error) => {
-  if (error.response?.status === 401) {
-    // await refreshToken();
-    // return instance(error.config); // Retry original request
-  }
-
-  throw error;
-});
-
-axios.interceptors.request.use(async function (config) {
+api.interceptors.request.use(async function (config) {
   let token = null;
-  if (typeof window == undefined) {
+  if (typeof window === "undefined") {
     const { cookies } = (await import('next/headers'))
     token = (await cookies()).get('token')?.value
   } else {
@@ -616,5 +607,16 @@ axios.interceptors.request.use(async function (config) {
   // Do something with request error
   return Promise.reject(error);
 });
+
+api.interceptors.response.use(undefined, async (error) => {
+  if (error.response?.status === 401) {
+    // await refreshToken();
+    // return instance(error.config); // Retry original request
+  }
+
+  throw error;
+});
+
+
 
 export { api }

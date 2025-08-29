@@ -11,6 +11,9 @@ import { useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/contexts/language-context"
 import { useSidebar } from "@/contexts/sidebar-context"
+import { useAuth } from "@/contexts/auth-provider"
+import Link from "next/link"
+import Cookie from "js-cookie"
 
 export function Navbar() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -20,6 +23,7 @@ export function Navbar() {
   const { language, setLanguage, t } = useLanguage()
   const { toggle } = useSidebar()
 
+  const { user, setUser } = useAuth()
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -29,6 +33,11 @@ export function Navbar() {
     if (searchQuery.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
     }
+  }
+
+  const signOut = () => {
+    Cookie.remove("token")
+    window.location.reload()
   }
 
   const getThemeIcon = () => {
@@ -145,12 +154,12 @@ export function Navbar() {
         </DropdownMenu>
 
         {/* User Menu */}
-        <DropdownMenu>
+        {(user && user.isLogedIn) ? <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="sm" className="gap-2">
               <Avatar className="w-6 h-6">
-                <AvatarImage src="/placeholder.svg?height=24&width=24" />
-                <AvatarFallback>U</AvatarFallback>
+                {/* <AvatarImage src="/placeholder.svg?height=24&width=24" /> */}
+                <AvatarFallback>{user.name.split("")[0]}</AvatarFallback>
               </Avatar>
               <User className="w-4 h-4 hidden sm:inline" />
             </Button>
@@ -158,9 +167,17 @@ export function Navbar() {
           <DropdownMenuContent align="end">
             <DropdownMenuItem>{t("nav.profile")}</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>{t("nav.signout")}</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Button onClick={signOut} variant="destructive" size="sm" className="gap-2 w-full items-start cursor-pointer">
+                {t("nav.signout")}
+              </Button>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+          : <Link href="/login" >
+            <Button className="bg-[#1DB954] hover:bg-[#1DB954]/90 text-slate-100 cursor-pointer">Login</Button>
+          </Link>
+        }
       </div>
     </header>
   )

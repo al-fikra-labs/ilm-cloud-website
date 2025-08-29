@@ -13,6 +13,7 @@ import Link from "next/link"
 import { useQuery } from "@tanstack/react-query"
 import { getQueryClient } from "@/lib/query-client"
 import { endpoints } from "@/lib/urls"
+import Image from "next/image"
 
 type Playlist = {
     id: string
@@ -105,7 +106,9 @@ function PlaylistCard({ playlist, viewMode }: { playlist: Playlist, viewMode: "l
                 {viewMode === "grid" ? (
                     <>
                         <div className="aspect-square bg-muted rounded-md mb-3 sm:mb-4 relative overflow-hidden">
-                            <img
+                            <Image
+                                width={300}
+                                height={600}
                                 src={playlist.thumbnail || `/placeholder.svg?height=200&width=200&query=${playlist.name}`}
                                 alt={playlist.name}
                                 className="w-full h-full object-cover transition-transform group-hover:scale-105"
@@ -139,7 +142,9 @@ function PlaylistCard({ playlist, viewMode }: { playlist: Playlist, viewMode: "l
                 ) : (
                     <div className="flex items-center gap-3 sm:gap-4">
                         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-muted rounded-md overflow-hidden flex-shrink-0 relative">
-                            <img
+                            <Image
+                                width={800}
+                                height={300}
                                 src={playlist.thumbnail || `/placeholder.svg?height=80&width=80&query=${playlist.name}`}
                                 alt={playlist.name}
                                 className="w-full h-full object-cover"
