@@ -113,10 +113,10 @@ export default function TeachersPage({ teachers }: { teachers: Teachers[] }) {
                                             </h3>
                                             <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{teacher.bio}</p>
                                             <div className="flex items-center justify-center gap-4 text-sm">
-                                                <div className="flex items-center gap-1">
+                                                {/* <div className="flex items-center gap-1">
                                                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                                    {/* <span>{teacher.rating ? teacher.rating.toFixed(1) : "0.0"}</span> */}
-                                                </div>
+                                                    <span>{teacher.rating ? teacher.rating.toFixed(1) : "0.0"}</span>
+                                                </div> */}
                                                 <div className="flex items-center gap-1">
                                                     <Users className="w-4 h-4 text-muted-foreground" />
                                                     <span>  0
